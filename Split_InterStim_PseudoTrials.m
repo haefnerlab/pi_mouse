@@ -5,7 +5,11 @@ function [ unit ] = Split_InterStim_PseudoTrials(unit, glopts, min_times)
 % if min_times is given, spikes with t<min not counted, OR extra zero-spike
 % bins are filled in as necessary to reach tmin
 %
-% returns modified 'unit' which has a new 'task_inter_pseudoSpikes'
+% returns modified 'unit' which has a new fields:
+% - task_inter_pseudoSpikes: trialsx1 cell array of pseudotrialsx1 cell 
+%   arrays of arrays of spike times
+% - all_inter_pseudoSpikes: concatenation of all task_inter_pseudoSpikes
+%   (the 'task' is the same in all: gray screen)
 
 n_trials = length(unit.task_interSpikes);
 
@@ -22,6 +26,8 @@ for i=1:n_trials
     unit.task_inter_pseudoSpikes{i} = ...
         split_single_interval(spikes, glopts, min_times(i));
 end
+
+unit.all_inter_pseudoSpikes = vertcat(unit.task_inter_pseudoSpikes{:});
 
 end
 

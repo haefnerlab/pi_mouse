@@ -1,4 +1,4 @@
-function nc = Compute_NoiseCorr_Stim(data)
+function nc = Compute_SignalCorr_Stim(data)
 
 fields={'naive','intermediate','trained'};
 

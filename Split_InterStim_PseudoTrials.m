@@ -1,6 +1,9 @@
-function [ unit ] = Split_InterStim_PseudoTrials(unit, glopts)
+function [ unit ] = Split_InterStim_PseudoTrials(unit, glopts, min_times)
 % Split_InterStim_PseudoTrials splits the 'inter-stimulus' data into chunks
-%   with lengths as defined by glopts.trial_length
+%   with lengths as defined by glopts.trial_length.
+%
+% if min_times is given, spikes with t<min not counted, OR extra zero-spike
+% bins are filled in as necessary to reach tmin
 %
 % returns modified 'unit' which has a new 'task_inter_pseudoSpikes'
 
@@ -8,16 +11,21 @@ n_trials = length(unit.task_interSpikes);
 
 unit.task_inter_pseudoSpikes = cell(n_trials,1);
 
+if nargin < 3
+    min_times = cellfun(@min_or_zero, unit.task_interSpikes);
+end
+
 % call split_single_interval on each trial
 % (note: cellfun won't work here because arrays are different sizes...?)
 for i=1:n_trials
     spikes = unit.task_interSpikes{i};
-    unit.task_inter_pseudoSpikes{i} = split_single_interval(spikes, glopts);
+    unit.task_inter_pseudoSpikes{i} = ...
+        split_single_interval(spikes, glopts, min_times(i));
 end
 
 end
 
-function [ slices ] = split_single_interval(spike_times, glopts)
+function [ slices ] = split_single_interval(spike_times, glopts, min_time)
 % spike times in range (-inf, 0], we want to split into T-second-long
 % 'pseudo trials' (where length of trial T is in glopts).
 %
@@ -34,12 +42,6 @@ function [ slices ] = split_single_interval(spike_times, glopts)
 
 % note: interstimulus trials go backwards in time
 
-if isempty(spike_times)
-    slices = {};
-    return
-end
-
-min_time = min(spike_times);
 n_pseudo_trials = ceil(abs(min_time) / glopts.trial_length);
 
 slices = cell(n_pseudo_trials, 1);
@@ -52,6 +54,16 @@ for trial_no = 1:n_pseudo_trials
     hi_index = find(spike_times < end_time, 1, 'last');
     
     slices{trial_no} = spike_times(lo_index:hi_index);
+end
+
+end
+
+function [ v ] = min_or_zero(array)
+
+if isempty(array)
+    v = 0;
+else
+    v = min(array);
 end
 
 end

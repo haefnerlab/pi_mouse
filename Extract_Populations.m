@@ -8,6 +8,7 @@ function pops = Extract_Populations(units)
 % fields:
 % - mouse_counter: mouse_counter of all units in this population
 % - series_number: series_number of all units in this population
+% - size: number of units
 % - units: struct array of units in this population
 %
 % This is the first-step in computing population statistics. Other
@@ -18,6 +19,7 @@ function pops = Extract_Populations(units)
 pops = struct(...
     'mouse_counter', 0, ...
     'series_number', 0, ...
+    'size', 0, ...
     'units', []);
 
 n_pops = 0;
@@ -40,6 +42,7 @@ for mid=unique(mouse_ids)
         pops(n_pops).mouse_counter = mid;
         pops(n_pops).series_number = sid;
         pops(n_pops).units = units(population_indices);
+        pops(n_pops).size = sum(population_indices);
     end
 end
 

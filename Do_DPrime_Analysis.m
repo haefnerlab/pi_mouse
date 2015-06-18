@@ -1,10 +1,16 @@
 function [] = Do_DPrime_Analysis(datafile)
 
-try
+% function [] = Do_DPrime_Analysis(datafile)
+% argument can be filename or data struct itself
+
+if isfield(datafile,'naiveUnits'), data=datafile;
+else
+  try
     data = load(datafile);
-catch
+  catch
     % check in the data/ subdirectory
     data = load(fullfile('data', datafile));
+  end
 end
 
 disp('mean dprime, naive');

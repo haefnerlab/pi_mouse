@@ -1,10 +1,11 @@
-function population = Compute_SignalCorr_Stim(population,glopts)
+function [ population ] = Compute_SignalCorr_Stim(population,glopts)
 
 for i=1:length(population)
   p=population(i);
-  fprimes = arrayfun(@Compute_FPrime,p.units);
+  p.units = arrayfun(@Compute_FPrime,p.units);
+  fprimes = Get_Property_Array(p.units, 'fprime');
   p.signal_covariances = fprimes' * fprimes;
-  pop(i)=p;
+  population(i)=p;
 end
 
-population = pop;
+end

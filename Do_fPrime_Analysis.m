@@ -1,21 +1,17 @@
-function [] = Do_fPrime_Analysis(datafile, glopts)
+function [ glopts ] = Do_fPrime_Analysis(glopts)
+% Do_fPrime_Analysis computes fprime for all units and - optionally - plots
 
-% function [] = Do_DPrime_Analysis(datafile)
-% argument can be filename or data struct itself
+glopts = load_data_once(glopts);
+data = glopts.data;
 
-if isfield(datafile,'naiveUnits'), data=datafile;
-else
-  try
-    data = load(datafile);
-  catch
-    % check in the data/ subdirectory
-    data = load(fullfile('data', datafile));
-  end
-end
+% TODO (?) make use of glopts.behaviors as in Extract_Populations?
+data.naiveUnits = arrayfun(@Compute_FPrime, data.naiveUnits);
+data.intermediateUnits = arrayfun(@Compute_FPrime, data.intermediateUnits);
+data.trainedUnits = arrayfun(@Compute_FPrime, data.trainedUnits);
 
-naive_fprimes = arrayfun(@Compute_FPrime, data.naiveUnits);
-intermediate_fprimes = arrayfun(@Compute_FPrime, data.intermediateUnits);
-trained_fprimes = arrayfun(@Compute_FPrime, data.trainedUnits);
+naive_fprimes = Get_Property_Array(data.naiveUnits, 'fprime');
+intermediate_fprimes = Get_Property_Array(data.intermediateUnits, 'fprime');
+trained_fprimes = Get_Property_Array(data.trainedUnits, 'fprime');
 
 if isfield(glopts,'display')
   switch glopts.display
@@ -25,7 +21,6 @@ if isfield(glopts,'display')
       
       disp('mean dprime, intermediate');
       disp(mean(intermediate_fprimes));
-      
       
       disp('mean dprime, trained');
       disp(mean(trained_fprimes));
@@ -42,11 +37,10 @@ if isfield(glopts,'display')
       ax3 = subplot(1,3,3);
       boxplot(trained_fprimes);
       title('trained');
-      
-      set([ax1,ax2,ax3], 'YLim', [0,5]);
-      suptitle('d'' for all neurons across 3 phases');
   end
 end
+
+glopts.data = data;
 
 end
 

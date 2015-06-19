@@ -1,4 +1,6 @@
-function fprime = Compute_FPrime(unit)
+function [ unit ] = Compute_FPrime(unit)
+%Compute_FPrime computes delta-mean-response to delta-stimulus
+%   returns modified unit with new 'fprime' field
 
 % split data into two groups by stimulus
 % (sorted so A and B are same across neurons)
@@ -15,6 +17,6 @@ B_spike_counts = cellfun(get_counts, unit.task_stimSpikes(B_trials));
 uA = mean(A_spike_counts);
 uB = mean(B_spike_counts);
 
-fprime = uA-uB;
+unit.fprime = uA-uB;
 
 end

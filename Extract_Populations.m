@@ -1,6 +1,19 @@
-function pops = Extract_Populations(units)
+function [ glopts ] = Extract_Populations(glopts)
+% Extract_Populations(glopts) computes populations for each phase.
+%   returns a modified glopts.data with fields {behavior}Populations for each
+%   behavior
 
-% function pops = Extract_Populations(units)
+for behavior=1:length(glopts.behaviors)
+    pop_varname = sprintf('%sPopulations', glopts.behaviors{behavior});
+    units_varname = sprintf('%sUnits', glopts.behaviors{behavior});
+    
+    glopts.data.(pop_varname) = units_to_pops(glopts.data.(units_varname));
+end
+
+end
+
+function [ pops ] = units_to_pops(units)
+% function pops = units_to_pops(units)
 %
 % returns an array of 'population' structs.
 % A population is a set of neurons that have been recorded at the same time
@@ -45,5 +58,4 @@ for mid=unique(mouse_ids)
         pops(n_pops).size = sum(population_indices);
     end
 end
-
 end

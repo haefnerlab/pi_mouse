@@ -1,22 +1,21 @@
 function [ populations ] = Compute_InterStim_NoiseCorrelations( populations, glopts )
-%Compute_NoiseCorrelations computes noise correlation matrix for each
+%Compute_InterStim_NoiseCorrelations computes noise correlation matrix for each
 %   given population
 
-populations = arrayfun(@(pop) get_noisecorr_single_pop(pop, glopts), populations);
+for i=1:length(populations)
+    
+    % compute inter-stimulus pseudo-trials for each unit 
+    populations(i) = Split_InterStim_PseudoTrials_Population(populations(i), glopts);
+
+    % get spike counts for of neurons for each pseudo-trial
+    spike_counts = arrayfun(@(u) SpikeCounts(u.all_inter_pseudoSpikes), ...
+        populations(i).units, 'UniformOutput', false);
+    spike_counts = horzcat(spike_counts{:});
+
+    % get correlation for each pair of neurons using z-scored data
+    populations(i).noise_correlations_inter = corrcoef(spike_counts);
+    populations(i).noise_covariances_inter  = cov(spike_counts);
 
 end
 
-function [ pop ] = get_noisecorr_single_pop(pop, glopts)
-
-  % compute inter-stimulus pseudo-trials for each unit 
-  pop = Split_InterStim_PseudoTrials_Population(pop, glopts);
-
-  % get spike counts for of neurons for each pseudo-trial
-  spike_counts = arrayfun(@(u) SpikeCounts(u.all_inter_pseudoSpikes), pop.units, ...
-      'UniformOutput', false);
-  spike_counts = horzcat(spike_counts{:});
-
-  % get correlation for each pair of neurons using z-scored data
-  pop.noise_correlations = corrcoef(spike_counts);
-  pop.noise_covariances  = cov(spike_counts);
 end

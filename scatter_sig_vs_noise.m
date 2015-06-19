@@ -40,7 +40,7 @@ subplot(3,1,1);
 hold on;
 for npop=npops
     indices = logical(triu(ones(size(npop.signal_covariances)),1));
-    scatter(npop.signal_covariances(indices), npop.noise_correlations(indices));
+    scatter(npop.signal_covariances(indices), npop.noise_correlations_inter(indices));
 end
 hold off;
 set(gca, 'YLim', ylim);
@@ -51,7 +51,7 @@ subplot(3,1,2);
 hold on;
 for ipop=ipops
     indices = logical(triu(ones(size(ipop.signal_covariances)),1));
-    scatter(ipop.signal_covariances(indices), ipop.noise_correlations(indices));
+    scatter(ipop.signal_covariances(indices), ipop.noise_correlations_inter(indices));
 end
 hold off;
 set(gca, 'YLim', ylim);
@@ -63,7 +63,7 @@ subplot(3,1,3);
 hold on;
 for tpop=tpops
     indices = logical(triu(ones(size(tpop.signal_covariances)),1));
-    scatter(tpop.signal_covariances(indices), tpop.noise_correlations(indices));
+    scatter(tpop.signal_covariances(indices), tpop.noise_correlations_inter(indices));
 end
 hold off;
 set(gca, 'YLim', ylim);

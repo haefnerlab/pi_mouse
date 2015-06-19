@@ -35,6 +35,11 @@ npops = Compute_SignalCorr_Stim(npops, glopts);
 ipops = Compute_SignalCorr_Stim(ipops, glopts);
 tpops = Compute_SignalCorr_Stim(tpops, glopts);
 
+%% collapse data from multiple populations into single vector per phase
+nflattened = flatten_population_correlations_covariances(npops);
+iflattened = flatten_population_correlations_covariances(ipops);
+tflattened = flatten_population_correlations_covariances(tpops);
+
 %% Plotting: Part I noise correlation (inter) vs signal covariances
 figure();
 ylim = [-1,1];
@@ -49,7 +54,8 @@ end
 hold off;
 set(gca, 'YLim', ylim);
 set(gca, 'XLim', xlim);
-title('naive');
+[R,P]=corrcoef(nflattened.signal_covariances, nflattened.noise_correlations_inter);
+title(sprintf('naive, correlation=%f, p=%f', R(2), P(2)));
 % intermediate populations
 subplot(3,1,2);
 hold on;
@@ -60,7 +66,8 @@ end
 hold off;
 set(gca, 'YLim', ylim);
 set(gca, 'XLim', xlim);
-title('intermediate');
+[R,P]=corrcoef(iflattened.signal_covariances, iflattened.noise_correlations_inter);
+title(sprintf('intermediate, correlation=%f, p=%f', R(2), P(2)));
 ylabel('noise correlation (inter)');
 % trained populations
 subplot(3,1,3);
@@ -72,7 +79,8 @@ end
 hold off;
 set(gca, 'YLim', ylim);
 set(gca, 'XLim', xlim);
-title('trained');
+[R,P]=corrcoef(tflattened.signal_covariances, tflattened.noise_correlations_inter);
+title(sprintf('trained, correlation=%f, p=%f', R(2), P(2)));
 xlabel('signal covariance');
 
 
@@ -90,7 +98,8 @@ end
 hold off;
 set(gca, 'YLim', ylim);
 set(gca, 'XLim', xlim);
-title('naive');
+[R,P]=corrcoef(nflattened.signal_covariances, nflattened.noise_correlations);
+title(sprintf('naive, correlation=%f, p=%f', R(2), P(2)));
 % intermediate populations
 subplot(3,1,2);
 hold on;
@@ -101,7 +110,8 @@ end
 hold off;
 set(gca, 'YLim', ylim);
 set(gca, 'XLim', xlim);
-title('intermediate');
+[R,P]=corrcoef(iflattened.signal_covariances, iflattened.noise_correlations);
+title(sprintf('intermediate, correlation=%f, p=%f', R(2), P(2)));
 ylabel('noise correlation (stim)');
 % trained populations
 subplot(3,1,3);
@@ -113,7 +123,8 @@ end
 hold off;
 set(gca, 'YLim', ylim);
 set(gca, 'XLim', xlim);
-title('trained');
+[R,P]=corrcoef(tflattened.signal_covariances, tflattened.noise_correlations);
+title(sprintf('trained, correlation=%f, p=%f', R(2), P(2)));
 xlabel('signal covariance');
 
 
@@ -131,7 +142,8 @@ end
 hold off;
 set(gca, 'YLim', ylim);
 set(gca, 'XLim', xlim);
-title('naive');
+[R,P]=corrcoef(nflattened.noise_correlations, nflattened.noise_correlations_inter);
+title(sprintf('naive, correlation=%f, p=%f', R(2), P(2)));
 % intermediate populations
 subplot(3,1,2);
 hold on;
@@ -142,7 +154,8 @@ end
 hold off;
 set(gca, 'YLim', ylim);
 set(gca, 'XLim', xlim);
-title('intermediate');
+[R,P]=corrcoef(iflattened.noise_correlations, iflattened.noise_correlations_inter);
+title(sprintf('intermediate, correlation=%f, p=%f', R(2), P(2)));
 ylabel('noise correlation (inter)');
 % trained populations
 subplot(3,1,3);
@@ -154,7 +167,8 @@ end
 hold off;
 set(gca, 'YLim', ylim);
 set(gca, 'XLim', xlim);
-title('trained');
+[R,P]=corrcoef(tflattened.noise_correlations, tflattened.noise_correlations_inter);
+title(sprintf('trained, correlation=%f, p=%f', R(2), P(2)));
 xlabel('noise correlation (stim)');
 
 %% Clean up workspace

@@ -1,7 +1,8 @@
 function fprime = Compute_FPrime(unit)
 
 % split data into two groups by stimulus
-directions = unique(unit.task_direction);
+% (sorted so A and B are same across neurons)
+directions = sort(unique(unit.task_direction));
 
 A_trials = unit.task_direction == directions(1);
 B_trials = unit.task_direction == directions(2);

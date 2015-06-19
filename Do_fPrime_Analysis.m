@@ -13,9 +13,9 @@ else
   end
 end
 
-naive_fprimes = arrayfun(@compute_fprime, data.naiveUnits);
-intermediate_fprimes = arrayfun(@compute_fprime, data.intermediateUnits);
-trained_fprimes = arrayfun(@compute_fprime, data.trainedUnits);
+naive_fprimes = arrayfun(@Compute_FPrime, data.naiveUnits);
+intermediate_fprimes = arrayfun(@Compute_FPrime, data.intermediateUnits);
+trained_fprimes = arrayfun(@Compute_FPrime, data.trainedUnits);
 
 if isfield(glopts,'display')
   switch glopts.display

@@ -1,4 +1,4 @@
-function fprime = compute_fprime(unit)
+function fprime = Compute_FPrime(unit)
 
 % split data into two groups by stimulus
 directions = unique(unit.task_direction);
@@ -13,8 +13,7 @@ B_spike_counts = cellfun(get_counts, unit.task_stimSpikes(B_trials));
 
 uA = mean(A_spike_counts);
 uB = mean(B_spike_counts);
-varA = var(A_spike_counts);
-varB = var(B_spike_counts);
+
 fprime = uA-uB;
 
 end

@@ -68,3 +68,7 @@ set(gca, 'YLim', ylim);
 set(gca, 'XLim', xlim);
 title('trained');
 xlabel('signal covariance');
+
+%% Clean up workspace
+
+clear xlim ylim indices npop ipop tpop;

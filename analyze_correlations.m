@@ -40,7 +40,27 @@ nflattened = flatten_population_correlations_covariances(npops);
 iflattened = flatten_population_correlations_covariances(ipops);
 tflattened = flatten_population_correlations_covariances(tpops);
 
+%% Set mode for following 3 sections
+stages={'naive','intermediate','trained'};
+flat={nflattened,iflattened,tflattened};
+for SC={'signal_covariances','signal_correlations'}
+  for NC={'noise_covariances','noise_correlations'}
+    for i=1:length(stages)
+      x=flat{i}.(SC{1}); 
+      y=flat{i}.(NC{1});
+      include=~isnan(x) & ~isnan(y);
+      [cr cp]=corr(x(include), y(include));
+      disp([stages{i} ': ' SC{1} ' vs ' NC{1} ' : ' num2str([cr cp])]);
+    end
+    disp('\n');
+  end
+end
+
 %% Plotting: Part I noise correlation (inter) vs signal covariances
+% this is how I first planned on redoing the plots using corr's and cov's
+% for all 3 parts before deciding on the above.
+SC = 'COV'; disp(['Plot signal-' SC]); % alternatively 'CORR'
+NC = 'CORR'; disp(['Plot noise -' SC]); % alternatively 'CORR'
 figure();
 ylim = [-1,1];
 xlim = [-1000,1000];
@@ -49,7 +69,15 @@ subplot(3,1,1);
 hold on;
 for npop=npops
     indices = logical(triu(ones(size(npop.signal_covariances)),1));
-    scatter(npop.signal_covariances(indices), npop.noise_correlations_inter(indices));
+    switch SC
+      case 'COV', x=npop.signal_covariances(indices);
+      case 'CORR',x=npop.signal_correlations(indices);
+    end
+    switch NC
+      case 'COV', y=npop.noise_covariances(indices);
+      case 'CORR',y=npop.noise_correlations(indices);
+    end
+    scatter(x,y);
 end
 hold off;
 set(gca, 'YLim', ylim);

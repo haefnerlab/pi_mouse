@@ -1,4 +1,5 @@
 function [ populations ] = Compute_SignalCorr_Stim(populations, glopts)
+%Compute_SignalCorr_Stim computes signal correlations and covariances of populations
 
 populations = unitfun(@Compute_FPrime, populations);
 

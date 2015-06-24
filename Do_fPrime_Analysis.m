@@ -1,10 +1,10 @@
-function [ glopts ] = Do_fPrime_Analysis(glopts)
+function [ data ] = Do_fPrime_Analysis(data, glopts)
 % Do_fPrime_Analysis computes fprime for all units and - optionally - plots
 
-glopts = load_data_once(glopts);
-data = glopts.data;
+if ~isstruct(data)
+    data = load(fullfile('data', data));
+end
 
-% TODO (?) make use of glopts.behaviors as in Extract_Populations?
 data.naiveUnits = arrayfun(@Compute_FPrime, data.naiveUnits);
 data.intermediateUnits = arrayfun(@Compute_FPrime, data.intermediateUnits);
 data.trainedUnits = arrayfun(@Compute_FPrime, data.trainedUnits);
@@ -39,8 +39,6 @@ if isfield(glopts,'display')
       title('trained');
   end
 end
-
-glopts.data = data;
 
 end
 

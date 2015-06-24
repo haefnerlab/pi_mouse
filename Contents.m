@@ -14,7 +14,6 @@
 %   Make_Global_Options                     - create the options struct that is passed around everywhere as 'glopts'
 %   Extract_Populations                     - groups units into populations for each phase
 %   Group_Trials_By_Stimulus                - groups trials by same contrast and direction
-%   Load_Data_Once                          - loads data from file specified in glopts, unless already loaded
 %   Remove_Units_Few_Trials                 - remove neurons from a population that don't have full trial data
 %   Split_InterStim_PseudoTrials            - splits the 'inter-stimulus' data into non-overlapping chunks ('pseudo' trials)
 %   Split_InterStim_PseudoTrials_Population - calls Split_InterStim_PseudoTrials such that all units in the same population get same number of pseudo trials

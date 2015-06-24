@@ -2,16 +2,17 @@
 
 % Load data (either quality3 or quality5)
 if ~exist('glopts', 'var')
-    glopts = make_global_options('quality3_learners', 'display', 'off', 'verbose', true);
+    glopts = Make_Global_Options('display', 'off', 'verbose', true);
 end
-% glopts = make_global_options('quality5_learners', 'display', 'off');
-glopts = load_data_once(glopts);
-% most analyses done on the population level: extract them here
-glopts = Extract_Populations(glopts);
 
-npops = glopts.data.naivePopulations;
-ipops = glopts.data.intermediatePopulations;
-tpops = glopts.data.trainedPopulations;
+datafile = 'quality3_units';
+data = load(fullfile('data', datafile));
+% most analyses done on the population level: extract them here
+data = Extract_Populations(data, glopts);
+
+npops = data.naivePopulations;
+ipops = data.intermediatePopulations;
+tpops = data.trainedPopulations;
 
 %% TEMPORARY FIX for variable trial lengths
 npops = Remove_Units_Few_Trials(npops, glopts);

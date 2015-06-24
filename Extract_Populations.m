@@ -1,13 +1,17 @@
-function [ glopts ] = Extract_Populations(glopts)
-% Extract_Populations(glopts) computes populations for each phase.
-%   returns a modified glopts.data with fields {behavior}Populations for each
+function [ data ] = Extract_Populations(data, glopts)
+% Extract_Populations(data) computes populations for each phase.
+%   returns a modified data struct with fields {behavior}Populations for each
 %   behavior
+%
+% usage:
+% >> data = load('path/to/datafile')
+% >> data = Extract_Populations(data)
 
 for behavior=1:length(glopts.behaviors)
     pop_varname = sprintf('%sPopulations', glopts.behaviors{behavior});
     units_varname = sprintf('%sUnits', glopts.behaviors{behavior});
     
-    glopts.data.(pop_varname) = units_to_pops(glopts.data.(units_varname));
+    data.(pop_varname) = units_to_pops(data.(units_varname));
 end
 
 end

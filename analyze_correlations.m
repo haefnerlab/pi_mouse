@@ -36,9 +36,9 @@ ipops = Compute_SignalCorr_Stim(ipops, glopts);
 tpops = Compute_SignalCorr_Stim(tpops, glopts);
 
 %% collapse data from multiple populations into single vector per phase
-nflattened = flatten_population_correlations_covariances(npops);
-iflattened = flatten_population_correlations_covariances(ipops);
-tflattened = flatten_population_correlations_covariances(tpops);
+nflattened = Flatten_Populations_Stats(npops);
+iflattened = Flatten_Populations_Stats(ipops);
+tflattened = Flatten_Populations_Stats(tpops);
 
 %% Set mode for following 3 sections
 stages={'naive','intermediate','trained'};

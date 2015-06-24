@@ -1,17 +1,6 @@
-function [] = Do_DPrime_Analysis(datafile)
+function [] = Do_dPrime_Analysis(glopts)
 
-% function [] = Do_DPrime_Analysis(datafile)
-% argument can be filename or data struct itself
-
-if isfield(datafile,'naiveUnits'), data=datafile;
-else
-  try
-    data = load(datafile);
-  catch
-    % check in the data/ subdirectory
-    data = load(fullfile('data', datafile));
-  end
-end
+glopts = load_data_once(glopts);
 
 disp('mean dprime, naive');
 naive_dprimes = arrayfun(@compute_dprime, data.naiveUnits);

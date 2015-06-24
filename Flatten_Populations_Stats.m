@@ -1,4 +1,10 @@
-function [ flat_data ] = flatten_population_correlations_covariances( populations )
+function [ flat_data ] = Flatten_Populations_Stats( populations )
+%Flatten_Population_Stats flatten the noise/signal correlation/
+%   covariance matrices across pairs of neurons into one 1D vector per stat
+%
+% (this enables easy use of corrcoef() and the like)
+
+
 flat_data = struct(...
     'signal_covariances', [], ...
     'signal_correlations', [], ...

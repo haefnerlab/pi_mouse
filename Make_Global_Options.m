@@ -1,5 +1,5 @@
-function glopts = make_global_options(datafile, varargin)
-% options = make_options(datafile, 'opt', value, 'opt2', value, ...)
+function glopts = Make_Global_Options(datafile, varargin)
+% Make_Global_Options(datafile, 'opt', value, 'opt2', value, ...)
 %
 % 'options' is a struct of parameters passed in to other functions in
 % this project.

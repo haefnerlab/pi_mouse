@@ -1,5 +1,5 @@
-function glopts = load_data_once(glopts)
-% load_data_once loads data from file specified in glopts.
+function glopts = Load_Data_Once(glopts)
+% Load_Data_Once loads data from file specified in glopts.
 %   should be used as 'glopts = load_data(glopts)' to prevent reloading
 %   again
 %
